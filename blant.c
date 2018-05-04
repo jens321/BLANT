@@ -586,10 +586,12 @@ void SetGlobalCanonMaps(void)
     assert(3 <= _k && _k <= 8);
     _Bk = (1 <<(_k*(_k-1)/2));
     char BUF[BUFSIZ];
+    char BUF2[BUFSIZ];
     int i;
     _numCanon = canonListPopulate(BUF, _canonList, _k);
     // Jens: this is where you'd insert a _numOrbits = orbitListPopulate(...) function;
     // put the actual function in libblant.[ch]
+    _numOrbits = orbitListPopulate(BUF, _orbitList, _k);
     mapCanonMap(BUF, _K, _k);
     sprintf(BUF, CANON_DIR "/perm_map%d.bin", _k);
     int pfd = open(BUF, 0*O_RDONLY);

@@ -80,3 +80,27 @@ int canonListPopulate(char *BUF, int *canon_list, int k) {
     fclose(fp_ord);
     return numCanon;
 }
+
+int orbitListPopulate(char *BUF, int orbit_list[MAX_CANONICALS][maxK], int k) {
+    // get the number of canonical graphettes for given k
+    sprintf(BUF, CANON_DIR "/canon_list%d.txt", k);
+    FILE *fp_ord=fopen(BUF, "r");
+    if (!fp_ord) Fatal("cannot find %s/canon_list%d.txt\n", CANON_DIR, k);
+    int numCanon;
+    fscanf(fp_ord, "%d", &numCanon);
+    fclose(fp_ord);
+
+    // read in orbit data
+    sprintf(BUF, CANON_DIR "/orbit_map%d.txt", k);
+    fp_ord=fopen(BUF, "r");
+    if (!fp_ord) Fatal("Cannot find %s/orbit_map%d.txt\n", CANON_DIR, k);
+    int numOrbit, i, j;
+    fscanf(fp_ord, "%d", &numOrbit);
+    for (i = 0; i < numCanon; ++i) {
+        for (j = 0; j < k; ++j) {
+            fscanf(fp_ord, "%d", &orbit_list[i][j]);
+        }
+    }
+    fclose(fp_ord);
+    return numOrbit; 
+}
