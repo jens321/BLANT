@@ -651,8 +651,10 @@ int RunBlantFromGraph(int k, int numSamples, GRAPH *G)
 	    for(j=0;j<k;j++) ++GDV(Varray[j], GintCanon);
 	    break;
 	case outputODV: // Jens, here...
-	    Abort("Sorry, ODV is not implemented yet");
-	    for(j=0;j<k;j++) ++ODV(Varray[j], _orbitList[GintCanon][j]);
+	    //Abort("Sorry, ODV is not implemented yet");
+	    for(j=0;j<k;j++){
+                ++ODV(Varray[j], _orbitList[GintCanon][j]);
+            }
 	    break;
 		
 	default: Abort("unknown or un-implemented outputMode");
@@ -662,6 +664,7 @@ int RunBlantFromGraph(int k, int numSamples, GRAPH *G)
     switch(_outputMode)
     {
 	int canon;
+        int orbit;
     case indexGraphlets: break; // already output on-the-fly above
     case graphletFrequency:
 	for(canon=0; canon<_numCanon; canon++)
@@ -676,6 +679,15 @@ int RunBlantFromGraph(int k, int numSamples, GRAPH *G)
 	    puts("");
 	}
 	break;
+    case outputODV:
+        for (i = 0; i < G->n; i++)
+        {
+            printf("%lu", ODV(i, 0));
+            for(orbit=1; orbit < _numOrbits; orbit++)
+                printf(" %lu", ODV(i, orbit));
+            puts("");
+        } 
+        break;
     default: Abort("unknown or un-implemented outputMode");
 	break;
     }
